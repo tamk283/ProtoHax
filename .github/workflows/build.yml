@@ -12,7 +12,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          # submodules disabled: pinned submodule mccheatz/mcpedata is dead (404),
+          # data is fetched from a mirror below instead.
+          submodules: false
+
+      - name: Fetch mcpedata (submodule mirror)
+        run: |
+          rm -rf src/main/resources/assets/mcpedata
+          git clone --depth 1 https://github.com/CloudPixel-Studio/mcpedata.git src/main/resources/assets/mcpedata
+          ls src/main/resources/assets/mcpedata
 
       - name: Set up JDK 11
         uses: actions/setup-java@v4
